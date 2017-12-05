@@ -32,8 +32,8 @@ rl.on('line', function(line){
         count = count + 1;
       }
     }
-    if(count === 1){
-      console.log(mailz);
+    if(count > 100000 && count < 100200){
+      console.log(mailz, count);
     }
   }
 }).on('close', function(){
