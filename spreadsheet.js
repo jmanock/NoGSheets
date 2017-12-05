@@ -21,25 +21,41 @@ var instream = fs.createReadStream('2017sep.txt');
 var outstream = new stream;
 var rl = readline.createInterface(instream, outstream);
 var count = 0;
-var mailz;
+var mailz, lName, fName, mName, dob, gender, zip;
+//var something = [];
 rl.on('line', function(line){
   var results = line.toUpperCase();
   if(results.includes('@')){
     results = results.split(/[\t]+/);
+
     for(var i = 0; i<results.length; i++){
       if(results[i].includes('@')){
         mailz = results[i];
         count = count + 1;
+        fName = results[3];
+        lName = results[2];
+        mName = results[4];
+      }
+      if(fName === 'JR' || fName === 'II' || fName === 'III' || fName === 'SR'){
+        fName = results[4];
+      }
+      if(results[i].includes('/')){
+        dob = results[i-1];
+        gender = results[i-3];
+        zip = results[i-4];
       }
     }
-    if(count > 100000 && count < 100200){
-      console.log(mailz, count);
+    if(count > 1000 && count < 2000){
+      //something(mailz);
+      console.log(count, fName, lName, dob, gender, zip);
+
     }
   }
 }).on('close', function(){
   /*
     ~ Get first name and last name
-    ~ Should use a while loop for the count
+    ~ Going to be harder to get names back with nothing to compair
+    ~ Need to slow down adding them or save them to go in all at once
   */
   console.log('We done here');
   //console.log(count);
@@ -50,7 +66,9 @@ function something(x){
     doc.addRow(1, {
       last_name:'',
       first_name:'',
-      email:x
+      email:x,
+      gender:'',
+      age:''
     }, function(err){
       if(err){
         console.log('There is a problem',err);
