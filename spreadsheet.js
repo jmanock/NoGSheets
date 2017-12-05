@@ -22,7 +22,7 @@ var outstream = new stream;
 var rl = readline.createInterface(instream, outstream);
 var count = 0;
 var mailz, lName, fName, mName, dob, gender, zip;
-//var something = [];
+var holder = [];
 rl.on('line', function(line){
   var results = line.toUpperCase();
   if(results.includes('@')){
@@ -45,10 +45,9 @@ rl.on('line', function(line){
         zip = results[i-4];
       }
     }
-    if(count > 1000 && count < 2000){
-      //something(mailz);
-      console.log(count, fName, lName, dob, gender, zip);
-
+    if(count < 2){
+      //console.log(count, fName, lName, dob, gender, zip);
+      //addToSheets();
     }
   }
 }).on('close', function(){
@@ -61,20 +60,17 @@ rl.on('line', function(line){
   //console.log(count);
   //something(mailz);
 });
-function something(x){
-  doc.useServiceAccountAuth(creds, function(err){
-    doc.addRow(1, {
-      last_name:'',
-      first_name:'',
-      email:x,
-      gender:'',
-      age:''
-    }, function(err){
-      if(err){
-        console.log('There is a problem',err);
-      }else{
-        console.log('YO this shit got added');
-      }
-    });
+
+doc.useServiceAccountAuth(creds, function(err){
+  doc.addRow(1, {
+    last_name:'Smith',
+    first_name:'Steven',
+    email:'steven@smith.com'
+  }, function(err){
+    if(err){
+      console.log(err);
+    }else{
+      console.log('√ added √');
+    }
   });
-}
+});
