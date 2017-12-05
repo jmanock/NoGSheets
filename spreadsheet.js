@@ -29,15 +29,21 @@ rl.on('line', function(line){
     for(var i = 0; i<results.length; i++){
       if(results[i].includes('@')){
         mailz = results[i];
+        count = count + 1;
       }
+    }
+    if(count === 1){
+      console.log(mailz);
     }
   }
 }).on('close', function(){
   /*
-    ~ Get names or last name
-    ~ put all emails in sheets
+    ~ Get first name and last name
+    ~ Should use a while loop for the count
   */
-  something(mailz);
+  console.log('We done here');
+  //console.log(count);
+  //something(mailz);
 });
 function something(x){
   doc.useServiceAccountAuth(creds, function(err){
