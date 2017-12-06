@@ -9,7 +9,6 @@ var SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
     process.env.USERPROFILE) + '/.credentials/';
 var TOKEN_PATH = TOKEN_DIR + 'sheets.googleapis.com-nodejs-quickstart.json';
-console.log(TOKEN_PATH);
 // Load client secrets from a local file.
 fs.readFile('client_secret.json', function processClientSecrets(err, content) {
   if (err) {
@@ -18,16 +17,9 @@ fs.readFile('client_secret.json', function processClientSecrets(err, content) {
   }
   // Authorize a client with the loaded credentials, then call the
   // Google Sheets API.
-  authorize(JSON.parse(content), listMajors);
+  authorize(JSON.parse(content), something);
 });
 
-/**
- * Create an OAuth2 client with the given credentials, and then execute the
- * given callback function.
- *
- * @param {Object} credentials The authorization client credentials.
- * @param {function} callback The callback to call with the authorized client.
- */
 function authorize(credentials, callback) {
   var clientSecret = credentials.installed.client_secret;
   var clientId = credentials.installed.client_id;
@@ -46,14 +38,6 @@ function authorize(credentials, callback) {
   });
 }
 
-/**
- * Get and store new token after prompting for user authorization, and then
- * execute the given callback with the authorized OAuth2 client.
- *
- * @param {google.auth.OAuth2} oauth2Client The OAuth2 client to get token for.
- * @param {getEventsCallback} callback The callback to call with the authorized
- *     client.
- */
 function getNewToken(oauth2Client, callback) {
   var authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
@@ -78,11 +62,6 @@ function getNewToken(oauth2Client, callback) {
   });
 }
 
-/**
- * Store token to disk be used in later program executions.
- *
- * @param {Object} token The token to store to disk.
- */
 function storeToken(token) {
   try {
     fs.mkdirSync(TOKEN_DIR);
@@ -95,10 +74,6 @@ function storeToken(token) {
   console.log('Token stored to ' + TOKEN_PATH);
 }
 
-/**
- * Print the names and majors of students in a sample spreadsheet:
- * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
- */
 function listMajors(auth) {
   var sheets = google.sheets('v4');
   sheets.spreadsheets.values.get({
@@ -119,6 +94,29 @@ function listMajors(auth) {
         var row = rows[i];
         // Print columns A and E, which correspond to indices 0 and 4.
         console.log('%s, %s', row[0], row[4]);
+      }
+    }
+  });
+}
+function something(auth){
+  var sheets = google.sheets('v4');
+  sheets.spreadsheets.values.get({
+    auth:auth,
+    spreadsheetId:'1891LShhKaYJTynlKFPSupkEFpLYUll6_9M0Y0f1obI4',
+    range:'Class Data!A1:E',
+  }, function(err, response){
+    if(err){
+      console.log('There was an error:', err);
+      return;
+    }
+    var rows = response.values;
+    if(rows.length == 0){
+      console.log('Nothing found');
+    }else{
+      console.log('Something, somethingElse');
+      for(var i = 0; i<rows.length; i++){
+        var row = rows[i];
+        consoele.log('%s, %s', row[0], row[4]);
       }
     }
   });
