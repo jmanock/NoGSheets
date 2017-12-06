@@ -19,6 +19,17 @@ async.series([
       step();
     });
   },
+  function workingWithRows(step){
+    sheet.getRows({
+      offset:1,
+      limit:20,
+      orderby:'col2'
+    },function(err, rows){
+      for(var i = 0; i<rows.length; i++){
+        console.log(rows[i].firstname, rows[i].lastname, rows[i].dob);
+      }
+    });
+  },
   function workingWithCells(step){
     sheet.getCells({
       'min-row':1,
@@ -27,7 +38,7 @@ async.series([
     }, function(err, cells){
       //var cell = cells[0];
       for(var i = 0; i<cells.length; i++){
-        console.log(cells[i].value);
+        //console.log(cells[i].value);
       }
       step();
     })
