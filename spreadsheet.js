@@ -5,23 +5,12 @@ var readline = require('readline');
 var stream = require('stream');
 var doc = new GoogleSpreadsheet('1891LShhKaYJTynlKFPSupkEFpLYUll6_9M0Y0f1obI4');
 
-doc.useServiceAccountAuth(creds, function(err){
-  doc.getRows(1,function(err, rows){
-    // console.log(rows.length);
-  });
-  // doc.addRow(1,{last_name:'Manock', first_name:'Jon', email:'jonmanock@gmail.com'}, function(err){
-  //   if(err){
-  //     console.log(err);
-  //   }else{
-  //     console.log('This shit got added');
-  //   }
-  // });
-});
+
 var instream = fs.createReadStream('2017sep.txt');
 var outstream = new stream;
 var rl = readline.createInterface(instream, outstream);
 var count = 0;
-var mailz, lName, fName, mName, dob, gender, zip;
+var mailz, lName, fName, mName, dob, gender, zip, age;
 var holder = [];
 rl.on('line', function(line){
   var results = line.toUpperCase();
@@ -36,7 +25,7 @@ rl.on('line', function(line){
         lName = results[2];
         mName = results[4];
       }
-      if(fName === 'JR' || fName === 'II' || fName === 'III' || fName === 'SR'){
+      if(fName === 'JR' || fName === 'II' || fName === 'III' || fName === 'SR' || fName === 'I' || fName == 'V'){
         fName = results[4];
       }
       if(results[i].includes('/')){
@@ -44,18 +33,29 @@ rl.on('line', function(line){
         gender = results[i-3];
         zip = results[i-4];
       }
+      if(zip > 5){
+        zip = zip.substring(0,5);
+      }
+      var today = new Date();
+      var birthDate = new Date(dob);
+       age = today.getFullYear() - birthDate.getFullYear();
+      var m = today.getMonth() - birthDate.getMonth();
+      if(m < 0 || (m === 0 && today.getDate() < birthDate.getDate()) ){
+        age --;
+      }
+
     }
-    if(count < 2){
-      //console.log(count, fName, lName, dob, gender, zip);
+
+    if(count > 32998 && count < 34000){
+       //console.log(fName, lName, age, gender, zip);
+        //console.log(fName, lName, gender, age, mailz, zip);
+        console.log(fName+'\t'+lName+'\t'+gender+'\t'+age+'\t'+mailz+'\t'+zip);
       //addToSheets();
     }
+
   }
 }).on('close', function(){
-  /*
-    ~ Get first name and last name
-    ~ Going to be harder to get names back with nothing to compair
-    ~ Need to slow down adding them or save them to go in all at once
-  */
+
   console.log('We done here');
   //console.log(count);
   //something(mailz);
