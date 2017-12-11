@@ -17,7 +17,7 @@ fs.readFile('client_secret.json', function processClientSecrets(err, content) {
   }
   // Authorize a client with the loaded credentials, then call the
   // Google Sheets API.
-  authorize(JSON.parse(content), listMajors);
+  authorize(JSON.parse(content), adding);
 });
 
 function authorize(credentials, callback) {
@@ -96,31 +96,30 @@ function listMajors(auth) {
         var row = rows[i];
         // Print columns A and E, which correspond to indices 0 and 4.
         console.log('%s, %s', row[0],row[1],row[3], row[4]);
-
       }
     }
   });
 }
-function something(auth){
+function adding(auth){
   var sheets = google.sheets('v4');
-  sheets.spreadsheets.values.get({
+  var body = {
+    // This should be what I want to put into the sheets
+    Student_Name:'Jon',
+    Gender:'Male',
+    Class_Level:'3.Junior',
+    Home_State:'IL'
+  }
+  sheets.spreadsheets.values.update({
     auth:auth,
     spreadsheetId:'1891LShhKaYJTynlKFPSupkEFpLYUll6_9M0Y0f1obI4',
-    range:'Class Data!A1:E',
+    range:'Sheet1!A2:E',
+    valueInputOption:'USER_ENTERED',
+    resource:body
   }, function(err, response){
     if(err){
-      console.log('There was an error:', err);
-      return;
-    }
-    var rows = response.values;
-    if(rows.length == 0){
-      console.log('Nothing found');
+      console.log('We have problems!', err);
     }else{
-      console.log('Something, somethingElse');
-      for(var i = 0; i<rows.length; i++){
-        var row = rows[i];
-        consoele.log('%s, %s', row[0], row[4]);
-      }
+      console.log('I believe this shit is added');
     }
-  });
+  })
 }
