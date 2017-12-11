@@ -17,7 +17,7 @@ fs.readFile('client_secret.json', function processClientSecrets(err, content) {
   }
   // Authorize a client with the loaded credentials, then call the
   // Google Sheets API.
-  authorize(JSON.parse(content), something);
+  authorize(JSON.parse(content), listMajors);
 });
 
 function authorize(credentials, callback) {
@@ -78,8 +78,10 @@ function listMajors(auth) {
   var sheets = google.sheets('v4');
   sheets.spreadsheets.values.get({
     auth: auth,
-    spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
-    range: 'Class Data!A2:E',
+    spreadsheetId: '1891LShhKaYJTynlKFPSupkEFpLYUll6_9M0Y0f1obI4',
+    //spreadsheetId:'1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
+    //range: 'Class Data!A2:E',
+    range:'Sheet1!A2:E',
   }, function(err, response) {
     if (err) {
       console.log('The API returned an error: ' + err);
@@ -93,7 +95,8 @@ function listMajors(auth) {
       for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
         // Print columns A and E, which correspond to indices 0 and 4.
-        console.log('%s, %s', row[0], row[4]);
+        console.log('%s, %s', row[0],row[1],row[3], row[4]);
+
       }
     }
   });
