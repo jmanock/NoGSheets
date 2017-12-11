@@ -60,17 +60,3 @@ rl.on('line', function(line){
   //console.log(count);
   //something(mailz);
 });
-
-doc.useServiceAccountAuth(creds, function(err){
-  doc.addRow(1, {
-    last_name:'Smith',
-    first_name:'Steven',
-    email:'steven@smith.com'
-  }, function(err){
-    if(err){
-      console.log(err);
-    }else{
-      console.log('√ added √');
-    }
-  });
-});

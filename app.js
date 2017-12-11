@@ -101,25 +101,22 @@ function listMajors(auth) {
   });
 }
 function adding(auth){
-  var sheets = google.sheets('v4');
-  var body = {
-    // This should be what I want to put into the sheets
-    Student_Name:'Jon',
-    Gender:'Male',
-    Class_Level:'3.Junior',
-    Home_State:'IL'
-  }
-  sheets.spreadsheets.values.update({
-    auth:auth,
+  var request = {
     spreadsheetId:'1891LShhKaYJTynlKFPSupkEFpLYUll6_9M0Y0f1obI4',
     range:'Sheet1!A2:E',
     valueInputOption:'USER_ENTERED',
-    resource:body
-  }, function(err, response){
+    resource:{
+      'Student_Name':'Jon'
+    },
+    auth:auth
+  };
+  var sheets = google.sheets('v4');
+  sheets.spreadsheets.values.update(request, function(err, response){
     if(err){
-      console.log('We have problems!', err);
+      console.log('We Have problems', err);
+      return;
     }else{
-      console.log('I believe this shit is added');
+      console.log(JSON.stringify(response, null, 2));
     }
-  })
+  });
 }
