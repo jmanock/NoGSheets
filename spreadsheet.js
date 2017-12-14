@@ -46,7 +46,7 @@ rl.on('line', function(line){
 
     }
 
-    if(count > 473998 && count < 475000){
+    if(count > 480998 && count < 482000){
        //console.log(fName, lName, age, gender, zip);
         //console.log(fName, lName, gender, age, mailz, zip);
         console.log(fName+'\t'+lName+'\t'+gender+'\t'+age+'\t'+mailz);
